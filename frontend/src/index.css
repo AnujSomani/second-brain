@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --brain-page: #f8f4ff;
+  --brain-surface: #ffffff;
+  --brain-panel: #ffffff;
+  --brain-inset: #f3e8ff;
+  --brain-line: rgb(216 180 254 / 0.85);
+  --brain-ink: #1e1b2e;
+  --brain-muted: #64748b;
+}
+
+.dark {
+  --brain-page: #0b0816;
+  --brain-surface: #110c22;
+  --brain-panel: #140e28;
+  --brain-inset: #0e081e;
+  --brain-line: rgb(168 85 247 / 0.22);
+  --brain-ink: #f8f7ff;
+  --brain-muted: rgb(216 180 254 / 0.7);
+}
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-page: var(--brain-page);
+  --color-surface: var(--brain-surface);
+  --color-panel: var(--brain-panel);
+  --color-inset: var(--brain-inset);
+  --color-line: var(--brain-line);
+  --color-ink: var(--brain-ink);
+  --color-muted: var(--brain-muted);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--brain-page);
+  color: var(--brain-ink);
+  font-family: var(--font-sans);
+}
+
+/* ── Animations ── */
+
+@keyframes brain-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes brain-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.5deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(6px) rotate(-0.5deg);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes synapse-flow {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.brain-float {
+  animation: brain-float 6s ease-in-out infinite;
+}
+
+.brain-glow {
+  animation: brain-glow 5s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 6s ease-in-out infinite;
+}
+
+.animate-synapse {
+  stroke-dasharray: 6 6;
+  animation: synapse-flow 2.5s linear infinite;
+}
+
+.brain-seamless-mask {
+  -webkit-mask-image: radial-gradient(ellipse 68% 66% at 50% 50%, #000 36%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.2) 68%, transparent 74%);
+  mask-image: radial-gradient(ellipse 68% 66% at 50% 50%, #000 36%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.2) 68%, transparent 74%);
+  mix-blend-mode: multiply;
+}
+
+.dark .brain-seamless-mask {
+  mix-blend-mode: normal;
+}
+
+.brain-auth-mask {
+  -webkit-mask-image: radial-gradient(ellipse 58% 54% at 50% 48%, #000 32%, rgba(0, 0, 0, 0.75) 46%, rgba(0, 0, 0, 0.15) 58%, transparent 66%);
+  mask-image: radial-gradient(ellipse 58% 54% at 50% 48%, #000 32%, rgba(0, 0, 0, 0.75) 46%, rgba(0, 0, 0, 0.15) 58%, transparent 66%);
+}
+
+.brain-mask {
+  mask-image: radial-gradient(ellipse 78% 78% at 50% 48%, #000 55%, transparent 82%);
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 4px;
+}

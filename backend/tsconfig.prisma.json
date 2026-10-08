@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": ".",
+    "outDir": "./.tsbuild/prisma"
+  },
+  "include": ["prisma7.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}

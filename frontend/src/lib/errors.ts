@@ -1,0 +1,11 @@
+import { ApiError } from "./api";
+
+export function getErrorMessage(error: unknown, fallback = "Something went wrong. Please try again.") {
+  if (error instanceof ApiError) {
+    return error.message;
+  }
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+}

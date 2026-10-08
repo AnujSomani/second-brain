@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+   previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  extensions = [vector]
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    
+  email        String    @unique
+  password     String?
+  googleId     String?  @unique
+  createdAt    DateTime  @default(now())
+  isVerified   Boolean   @default(false)
+  otp          String?
+  otpExpiresAt DateTime?
+
+
+  contents     Content[]
+  links        Link[]
+}
+
+model Content {
+  id                 Int               @id @default(autoincrement())
+  title              String
+  link               String
+  type               ContentType
+  status             ContentStatus    @default(pending)
+  extractedText      String?          @db.Text
+  thumbnailUrl       String?         
+  description        String?          @db.Text 
+  embedHtml          String?          @db.Text 
+  favicon            String?          
+  siteName           String?          
+  author             String?          
+  publishedDate      DateTime?       
+  providerName       String?          
+  metadata           Json?            
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  userId             Int
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tags              Tag[]
+  chunks            Chunk[]
+}
+
+enum ContentType {
+  article
+  video
+  tweet
+  document
+}
+
+enum ContentStatus {
+  pending
+  processing
+  ready
+  failed
+}
+
+model Tag {
+  id       Int       @id @default(autoincrement())
+  title    String    @unique
+  contents Content[]
+}
+
+
+model Link {
+  id        Int      @id @default(autoincrement())
+  hash      String   @unique
+  createdAt DateTime @default(now())
+
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Chunk{
+  id             Int                @id @default(autoincrement())
+  text           String             @db.Text
+  embedding      Unsupported("vector(1536)")?
+  order          Int
+  createdAt      DateTime           @default(now())
+
+  contentId      Int
+  content        Content            @relation(fields: [contentId],references: [id], onDelete: Cascade)
+
+  @@index([contentId])
+  }
