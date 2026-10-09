@@ -34,7 +34,6 @@ model Content {
   extractedText      String?          @db.Text
   thumbnailUrl       String?         
   description        String?          @db.Text 
-  embedHtml          String?          @db.Text 
   favicon            String?          
   siteName           String?          
   author             String?          

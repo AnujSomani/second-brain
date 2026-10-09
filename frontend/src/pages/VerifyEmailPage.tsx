@@ -22,7 +22,6 @@ export function VerifyEmailPage() {
   const verifyMutation = useMutation({
     mutationFn: verifyEmail,
     onSuccess: () => {
-      // Give the browser a moment to set the cookie before navigating
       setTimeout(() => {
         navigate("/brain");
       }, 100);

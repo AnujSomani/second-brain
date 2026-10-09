@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { Sidebar } from "../components/brain/Sidebar";
 import { AppShell } from "../layouts/AppShell";
 import { IconButton } from "../components/ui/icon-button";
@@ -15,7 +14,6 @@ import {
   RefreshIcon,
 } from "../icons";
 
-/* ──────────────────── Initial friendly welcome message ──────────────────── */
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: "welcome-1",
@@ -34,12 +32,10 @@ export function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-scroll on new message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isThinking]);
 
-  // Handle send
   const handleSend = useCallback(async (textToSend?: string) => {
     const query = (textToSend || input).trim();
     if (!query || isThinking) return;
@@ -63,12 +59,12 @@ export function ChatPage() {
         link: string;
         category: ContentCategory;
         thumbnailUrl?: string | null;
-      }> = (data.sources || []).map((s, idx) => ({
+      }> = (data.sources || []).map((s: any, idx) => ({
         id: String(idx),
         title: s.title || s.link,
         link: s.link,
-        category: (s.type || "article") as ContentCategory,
-        thumbnailUrl: s.thumbnailUrl,
+        category: "article" as ContentCategory,
+        thumbnailUrl: null,
       }));
 
       const aiMessage: ChatMessage = {
@@ -147,7 +143,6 @@ export function ChatPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Clear conversation */}
             <button
               onClick={handleClearChat}
               className="text-xs font-semibold text-muted hover:text-ink px-3 py-1.5 rounded-xl border border-line hover:bg-inset transition-colors cursor-pointer"
@@ -196,11 +191,8 @@ export function ChatPage() {
         </div>
       }
     >
-
-        {/* Chat Conversation Scroll Area */}
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
           <div className="max-w-3xl mx-auto space-y-6">
-            {/* Messages stream */}
             {messages.map((msg) => {
               const isUser = msg.role === "user";
               return (
@@ -211,7 +203,6 @@ export function ChatPage() {
                     isUser ? "flex-row-reverse" : "flex-row"
                   )}
                 >
-                  {/* Avatar */}
                   <div
                     className={cn(
                       "size-8 rounded-full flex items-center justify-center shrink-0 shadow-sm",
@@ -227,7 +218,6 @@ export function ChatPage() {
                     )}
                   </div>
 
-                  {/* Message Bubble Container */}
                   <div
                     className={cn(
                       "max-w-[85%] rounded-3xl p-4 sm:p-5 shadow-sm text-sm leading-relaxed",
@@ -238,7 +228,6 @@ export function ChatPage() {
                   >
                     <p className="whitespace-pre-line">{msg.text}</p>
 
-                    {/* Sources Badges */}
                     {msg.sources && msg.sources.length > 0 && (
                       <div className="mt-3.5 pt-3 border-t border-purple-100 dark:border-purple-800/40">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-2">
@@ -268,7 +257,6 @@ export function ChatPage() {
               );
             })}
 
-            {/* Thinking pulsating indicator */}
             {isThinking && (
               <div className="flex items-center gap-3.5">
                 <div className="size-8 rounded-full bg-gradient-to-tr from-purple-600 to-amber-500 text-white flex items-center justify-center shrink-0">

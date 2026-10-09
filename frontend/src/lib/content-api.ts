@@ -1,7 +1,6 @@
 import api from "./api";
 import type { BrainContent, ContentCategory } from "../types/brain";
 
-/* ─── Response types matching the backend ─── */
 
 interface BackendTag {
   id: number;
@@ -56,7 +55,6 @@ interface SharedBrainResponse {
   content: BackendContent[];
 }
 
-/* ─── Mappers ─── */
 
 function mapContent(c: BackendContent): BrainContent {
   return {
@@ -80,7 +78,6 @@ function mapContent(c: BackendContent): BrainContent {
   };
 }
 
-/* ─── API calls ─── */
 
 export async function fetchContents(page = 1, limit = 50): Promise<{ contents: BrainContent[]; total: number }> {
   const { data } = await api.get<PaginatedResponse>("/api/v1/content", { params: { page, limit } });

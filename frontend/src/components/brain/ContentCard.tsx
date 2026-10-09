@@ -17,7 +17,6 @@ interface ContentCardProps {
   readOnly?: boolean; // For shared brain view
 }
 
-/** Category icon shown in the card header */
 function CategoryIcon({ category }: { category: BrainContent["category"] }) {
   const baseClass = "size-4 shrink-0";
   switch (category) {
@@ -32,7 +31,6 @@ function CategoryIcon({ category }: { category: BrainContent["category"] }) {
   }
 }
 
-/** Provider-specific icons and badges */
 function ProviderBadge({ providerName, siteName }: { providerName?: string | null; siteName?: string | null }) {
   if (!providerName && !siteName) return null;
 
@@ -64,7 +62,6 @@ function ProviderBadge({ providerName, siteName }: { providerName?: string | nul
   );
 }
 
-/** Render job posting preview (LinkedIn Jobs, etc.) */
 function JobPostingCard({ metadata }: { metadata: any }) {
   return (
     <div className="my-3 p-4 rounded-xl bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-950/20 dark:to-indigo-950/15 border border-blue-200/40 dark:border-blue-500/20 shadow-sm">
@@ -99,7 +96,6 @@ function JobPostingCard({ metadata }: { metadata: any }) {
   );
 }
 
-/** Render GitHub repository preview */
 function RepositoryCard({ metadata, author }: { metadata: any; author?: string | null }) {
   return (
     <div className="my-3 p-4 rounded-xl bg-gradient-to-br from-slate-50/80 to-gray-50/80 dark:from-slate-950/20 dark:to-gray-950/15 border border-slate-200/40 dark:border-slate-500/20 shadow-sm">
@@ -129,7 +125,6 @@ function RepositoryCard({ metadata, author }: { metadata: any; author?: string |
   );
 }
 
-/** Render tweet-style card */
 function TweetPreviewCard({ text }: { text: string }) {
   const cleanText = text.replace(/^Tweet \/ X post by .+\n+Link: .+\n+/i, "").trim();
 
@@ -149,7 +144,6 @@ function TweetPreviewCard({ text }: { text: string }) {
   );
 }
 
-/** Render article preview */
 function ArticlePreviewCard({ text }: { text: string }) {
   return (
     <div className="my-3 p-4 rounded-xl bg-gradient-to-br from-emerald-50/60 to-teal-50/60 dark:from-emerald-950/15 dark:to-teal-950/15 border border-emerald-200/40 dark:border-emerald-500/20 shadow-sm">
@@ -178,12 +172,10 @@ function getYouTubeThumbnail(url: string): string | null {
     }
     if (videoId) return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   } catch {
-    /* ignore bad URLs */
   }
   return null;
 }
 
-/** Get thumbnail URL - prioritize database thumbnail, fallback to YouTube, then placeholder */
 function getThumbnailUrl(content: BrainContent): string | null {
   if (content.thumbnailUrl) {
     return content.thumbnailUrl;
@@ -196,7 +188,6 @@ function getThumbnailUrl(content: BrainContent): string | null {
   return null;
 }
 
-/** Filter out technical error descriptions from old data */
 function isErrorDescription(description: string): boolean {
   const errorPatterns = [
     /could not be scrop/i,
@@ -210,13 +201,9 @@ function isErrorDescription(description: string): boolean {
   return errorPatterns.some(pattern => pattern.test(description));
 }
 
-/** Detect if preview text is just our fallback (title + link) and shouldn't be displayed as content */
 function isFallbackPreview(preview: string): boolean {
-  // Fallback preview is just: "Title\n\nLink"
-  // It should not be rendered as article content
   const lines = preview.trim().split('\n').filter(l => l.trim());
   
-  // If it's only 1-2 lines and one is a URL, it's fallback text
   if (lines.length <= 2) {
     return lines.some(line => /^https?:\/\//i.test(line.trim()));
   }
@@ -224,9 +211,7 @@ function isFallbackPreview(preview: string): boolean {
   return false;
 }
 
-/** Generate professional icon-based placeholder when no thumbnail */
 function getIconPlaceholder(content: BrainContent): string {
-  // Icon configuration by content type
   const iconConfig = {
     article: { emoji: '📄', bgColor: '#eff6ff', iconColor: '#3b82f6' },
     document: { emoji: '📖', bgColor: '#faf5ff', iconColor: '#9333ea' },
@@ -236,7 +221,6 @@ function getIconPlaceholder(content: BrainContent): string {
 
   const config = iconConfig[content.category] || { emoji: '🔗', bgColor: '#f8fafc', iconColor: '#64748b' };
   
-  // Create a full-size SVG with centered icon
   const svg = `
     <svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
       <rect width="400" height="200" fill="${config.bgColor}" />
@@ -266,13 +250,11 @@ export function ContentCard({
   const iconPlaceholder = getIconPlaceholder(content);
   const hasMetadata = content.metadata && Object.keys(content.metadata).length > 0;
 
-  // Determine if we should show special preview card
   const showJobCard = hasMetadata && content.metadata?.type === "job";
   const showRepoCard = hasMetadata && content.metadata?.type === "repository";
   const showTweetCard = content.category === "tweet" && content.preview && !isFallbackPreview(content.preview);
   const showArticleCard = content.category === "article" && content.preview && content.preview.length > 50 && !isFallbackPreview(content.preview);
 
-  // Click handler to open the link
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (

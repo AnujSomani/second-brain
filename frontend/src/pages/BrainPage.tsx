@@ -22,7 +22,6 @@ import { cn } from "../lib/cn";
 import { ui } from "../lib/ui";
 import { fetchContents, addContent, deleteContent } from "../lib/content-api";
 
-/* ──────────────────── Filter label map ──────────────────── */
 const FILTER_LABELS: Record<SidebarFilter, string> = {
   all: "All Notes",
   article: "Articles",
@@ -35,22 +34,18 @@ const FILTER_LABELS: Record<SidebarFilter, string> = {
 export function BrainPage() {
   const navigate = useNavigate();
 
-  // Sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeFilter, setActiveFilter] = useState<SidebarFilter>("all");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [tagSearchQuery, setTagSearchQuery] = useState("");
 
-  // Content state
   const [contents, setContents] = useState<BrainContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Modal state
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
-  // Load content from backend
   const loadContent = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -73,7 +68,6 @@ export function BrainPage() {
     loadContent();
   }, [loadContent]);
 
-  // Calculate tag counts: { [tag]: count }
   const tagCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     contents.forEach((c) => {
@@ -87,24 +81,20 @@ export function BrainPage() {
     return counts;
   }, [contents]);
 
-  // Unique tags sorted by count
   const allTags = useMemo(() => {
     return Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
   }, [tagCounts]);
 
-  // Filtered tags for the Tag Explorer search
   const displayedTags = useMemo(() => {
     if (!tagSearchQuery.trim()) return allTags;
     const q = tagSearchQuery.toLowerCase().trim();
     return allTags.filter((t) => t.includes(q));
   }, [allTags, tagSearchQuery]);
 
-  // Total items with at least one tag
   const totalTaggedNotes = useMemo(() => {
     return contents.filter((c) => c.tags && c.tags.length > 0).length;
   }, [contents]);
 
-  /* ── Derived filtered contents ── */
   const filteredContents = contents.filter((c) => {
     if (activeFilter === "tags") {
       if (activeTag) {
@@ -117,7 +107,6 @@ export function BrainPage() {
     return matchesCategory && matchesTag;
   });
 
-  /* ── Handlers ── */
   const handleAddContent = useCallback(
     async (data: { title: string; link: string; category: ContentCategory; tags: string[] }) => {
       try {
@@ -130,12 +119,10 @@ export function BrainPage() {
         setContents((prev) => [created, ...prev]);
         setError(null);
         
-        // Auto-refresh after 3 seconds to get updated status
         setTimeout(() => {
           loadContent();
         }, 3000);
         
-        // Also refresh after 10 seconds (for slower extractions like Instagram)
         setTimeout(() => {
           loadContent();
         }, 10000);

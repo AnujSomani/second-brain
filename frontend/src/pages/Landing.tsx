@@ -1,5 +1,3 @@
-
-
 import { Navbar } from "../components/landing/Navbar";
 import { Hero } from "../components/landing/Hero";
 import { DemoSection } from "../components/landing/DemoSection";

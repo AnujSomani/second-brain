@@ -4,9 +4,7 @@ import { extractVideo } from "./video.js";
 import { extractDocument } from "./document.js";
 import type { ExtractionStrategy } from "../detectExtractionStrategy.js";
 import type { ExtractionResult } from "./types.js";
-
 export type { ExtractionResult };
-
 export async function extractContent(
   url: string,
   strategy: ExtractionStrategy

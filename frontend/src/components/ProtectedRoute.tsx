@@ -14,7 +14,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const checkAuth = async () => {
       console.log("🔐 ProtectedRoute: Starting authentication check...");
       
-      // Check if cookie exists
       const cookies = document.cookie;
       console.log("🍪 Cookies:", cookies);
       
@@ -36,7 +35,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     checkAuth();
   }, []);
 
-  // Loading state
   if (isAuthenticated === null) {
     console.log("⏳ ProtectedRoute: Loading...");
     return (
@@ -49,14 +47,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // Not authenticated - redirect to signin
   if (!isAuthenticated) {
     console.log("🚫 Not authenticated, redirecting to signin");
     console.log("Error was:", error);
     return <Navigate to="/signin" replace />;
   }
 
-  // Authenticated - render children
   console.log("✅ Authenticated! Rendering protected content");
   return <>{children}</>;
 }

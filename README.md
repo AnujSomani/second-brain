@@ -1,4 +1,4 @@
-# 🧠 Brainly - Your Second Brain
+# 🧠 SecondBrain - Your AI-Powered Knowledge Hub
 
 A modern, AI-powered knowledge management system that helps you save, organize, and interact with your digital content. Built with React, Node.js, PostgreSQL, and powered by Google's Gemini AI.
 
@@ -40,9 +40,9 @@ A modern, AI-powered knowledge management system that helps you save, organize, 
 ## 🏗️ Architecture
 
 ```
-brainly/
+secondbrain/
 ├── backend/              # Node.js + Express API
-│   ├── src/
+├── src/
 │   │   ├── ai/          # AI & embedding logic
 │   │   ├── auth.ts      # Authentication routes
 │   │   ├── content.ts   # Content management routes
@@ -75,8 +75,8 @@ brainly/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/brainly.git
-   cd brainly
+   git clone https://github.com/yourusername/secondbrain.git
+   cd secondbrain
    ```
 
 2. **Setup Backend**
@@ -117,7 +117,7 @@ Create a `.env` file in the `backend/` directory:
 
 ```env
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/brainly?sslmode=require"
+DATABASE_URL="postgresql://user:password@localhost:5432/secondbrain?sslmode=require"
 
 # Authentication
 USER_JWT_SECRET="your-secure-jwt-secret-key-here"
@@ -275,4 +275,4 @@ For questions or support, please open an issue on GitHub.
 
 ---
 
-Built with ❤️ by the Brainly team
+Built with ❤️ by the SecondBrain team

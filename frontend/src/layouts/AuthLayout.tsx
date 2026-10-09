@@ -5,7 +5,6 @@ import { ParticlesBackground } from "../components/auth/ParticlesBackground";
 import brain from "../assets/brain.jpg";
 
 export function AuthLayout() {
-  // Force light mode for auth pages
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove("dark");

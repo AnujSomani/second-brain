@@ -18,7 +18,6 @@ export function ShareBrainModal({ isOpen, onClose }: ShareBrainModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load current share status
   useEffect(() => {
     if (!isOpen) return;
     let isMounted = true;
@@ -52,12 +51,10 @@ export function ShareBrainModal({ isOpen, onClose }: ShareBrainModalProps) {
     
     try {
       if (isShared) {
-        // Disable sharing
         await shareBrain(false);
         setIsShared(false);
         setShareLink("");
       } else {
-        // Enable sharing
         const link = await shareBrain(true);
         if (link) {
           setIsShared(true);
@@ -80,7 +77,6 @@ export function ShareBrainModal({ isOpen, onClose }: ShareBrainModalProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* clipboard not available */
     }
   }, [shareLink]);
 

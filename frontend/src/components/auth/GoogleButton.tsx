@@ -15,7 +15,7 @@ export function GoogleButton({ title }: { title: string }) {
         type="button"
         variant="google"
         title={title}
-        startIcon={<GoogleIcon className="size-4.5" />}
+        startIcon={<GoogleIcon />}
         fullWidth
         onClick={startGoogleAuth}
       />

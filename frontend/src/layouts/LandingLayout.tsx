@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 export function LandingLayout() {
-  // Force light mode for landing page
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove("dark");

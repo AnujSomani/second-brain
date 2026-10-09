@@ -1,11 +1,5 @@
 import axios from "axios";
 
-/**
- * Central axios instance — all API requests flow through here.
- * The Vite dev-server proxy forwards `/api` → `http://localhost:3000`,
- * so we keep the baseURL empty (relative paths).
- * Cookies are sent automatically via `withCredentials`.
- */
 const api = axios.create({
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
@@ -13,7 +7,6 @@ const api = axios.create({
 
 export default api;
 
-/* ─── Typed error helper ─── */
 
 export class ApiError extends Error {
   readonly status: number;
@@ -25,10 +18,6 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Wraps an axios call so that HTTP errors are surfaced as `ApiError`
- * (keeps backward compat with existing catch blocks in auth pages).
- */
 export async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   try {
     const { method = "GET", body } = options;

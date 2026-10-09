@@ -1,11 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { config } from "../config.js";
-
 export const middleware = (req: Request, res: Response, next: NextFunction) => {
-
     const header = req.cookies["token"];
-
     if (!header) {
         return res.status(401).json({ message: "no token provided" });
     }

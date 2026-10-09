@@ -65,4 +65,3 @@ export function logout() {
     method: "POST",
   });
 }
-

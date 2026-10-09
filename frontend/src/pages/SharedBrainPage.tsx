@@ -26,7 +26,6 @@ export function SharedBrainPage() {
     fetchSharedBrain(shareLink)
       .then((data) => {
         setUsername(data.username);
-        // Map the backend content format to BrainContent
         const mappedContent: BrainContent[] = data.content.map((c: any) => ({
           id: String(c.id),
           title: c.title,
@@ -56,7 +55,6 @@ export function SharedBrainPage() {
       });
   }, [shareLink]);
 
-  // Calculate stats
   const stats = useMemo(() => {
     const byCategory = {
       article: 0,
@@ -75,7 +73,6 @@ export function SharedBrainPage() {
     };
   }, [contents]);
 
-  // Filter contents based on active filter
   const filteredContents = useMemo(() => {
     if (activeFilter === "all") return contents;
     return contents.filter((c) => c.category === activeFilter);

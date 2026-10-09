@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export const signupSchema = z.object({
   username: z.string().min(2).max(30),
   email: z.email("Invalid Email"),
@@ -11,32 +10,26 @@ export const signupSchema = z.object({
     .regex(/[0-9]/, "Password must contain a digit")
     .regex(/[^A-Za-z0-9]/, "Password must contain a special character"),
 });
-
 export const signinSchema = z.object({
   email: z.email("Invalid email"),
   password: z.string().min(1, "Password is required"),
 });
-
 export const verifyEmailSchema = z.object({
   email: z.email("Invalid email"),
   otp: z.string().length(6, "OTP must be 6 digits"),
 });
-
 export const resendOtpSchema = z.object({
   email: z.email("Invalid email"),
 });
-
 export const contentSchema = z.object({
   title:z.string().min(1).max(200),
   link :z.url("Invalid URL"),
   type :z.enum(["tweet" ,"video", "article" , "document" ]),
   tags:z.array(z.string().min(1)).optional().default([])
 });
-
 export const shareBrainSchema = z.object({
   share: z.boolean(),
 });
-
 export const updatePasswordSchema = z.object({
   currentPassword: z.string().min(1, "Current password is required"),
   newPassword: z.string()
@@ -47,11 +40,9 @@ export const updatePasswordSchema = z.object({
     .regex(/[0-9]/, "Password must contain a digit")
     .regex(/[^A-Za-z0-9]/, "Password must contain a special character"),
 });
-
 export const forgotPasswordSchema = z.object({
   email: z.email("Invalid email"),
 });
-
 export const resetPasswordSchema = z.object({
   email: z.email("Invalid email"),
   otp: z.string().length(6, "OTP must be 6 digits"),
@@ -63,12 +54,9 @@ export const resetPasswordSchema = z.object({
     .regex(/[0-9]/, "Password must contain a digit")
     .regex(/[^A-Za-z0-9]/, "Password must contain a special character"),
 });
-
 export const chatSchema = z.object({
   question: z.string().min(1, "Question cannot be empty").max(1000, "Question too long"),
 });
-
-
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;
 export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;

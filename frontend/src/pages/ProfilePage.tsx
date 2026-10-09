@@ -65,7 +65,6 @@ export function ProfilePage() {
     try {
       await logout();
     } catch {
-      /* continue clearing session even if logout API fails */
     } finally {
       clearUserSession();
       navigate("/signin");
