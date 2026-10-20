@@ -6,8 +6,8 @@ export async function sendOtpEmail(email: string, otp: string) {
   }
   const resend = new Resend(config.resendApiKey);
   const greeting = `Hello,`;
-  await resend.emails.send({
-    from: "SecondBrain <anujsomani05@gmail.com>",
+  const {error} = await resend.emails.send({
+    from: "SecondBrain <noreply@anujdev.in>",
     to: email,
     subject: "Your verification code",
     text: `${greeting}\n\nYour verification code is: ${otp}\n\nThis code expires in 10 minutes.\n\nIf you did not request this, ignore this email.`,
@@ -44,4 +44,5 @@ export async function sendOtpEmail(email: string, otp: string) {
       </div>
     `,
   });
+  if(error) throw new Error(`Resend failed : ${error.message}`);
 }
