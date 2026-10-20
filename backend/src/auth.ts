@@ -52,7 +52,26 @@ authrouter.post("/api/v1/signup", authLimiter, async (req: Request, res: Respons
         otpExpiresAt,
       },
     });
-    await sendOtpEmail(email, otp);
+    try {
+
+      await sendOtpEmail(email, otp);
+
+    } catch (emailError) {
+
+      console.error("Email sending failed:", emailError);
+
+      return res.status(503).json({
+
+        message: "Account created but email service unavailable. Contact support.",
+
+        userId: user.id,
+
+        email: email
+
+      });
+
+    }
+
     return res.status(201).json({
       message: "Signup successful. Check your email for the OTP.",
       userId: user.id,

@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+﻿import { GoogleGenAI } from "@google/genai";
 import { config } from "../config.js";
 import type { RetrievedChunk } from "./retrieval.js";
 const ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
@@ -51,17 +51,40 @@ export async function generateAnswer(
   const contents = [
     { role: "user", parts: [{ text: question }] },
   ];
-  const response = await ai.models.generateContent({
-    model: CHAT_MODEL,
-    contents,
-    config: { 
-      systemInstruction,
-      temperature: 0.3, 
-      topP: 0.95,
-    },
-  });
-  if (!response.text) {
-    throw new Error("Gemini returned an empty response");
+  
+  try {
+    const response = await ai.models.generateContent({
+      model: CHAT_MODEL,
+      contents,
+      config: { 
+        systemInstruction,
+        temperature: 0.3, 
+        topP: 0.95,
+      },
+    });
+    
+    if (!response.text) {
+      throw new Error("Gemini returned an empty response");
+    }
+    
+    return response.text;
+  } catch (error: any) {
+    console.error("Gemini API error:", error);
+    
+    // Handle specific error types
+    if (error.message?.includes("quota") || error.message?.includes("RESOURCE_EXHAUSTED")) {
+      throw new Error("AI_QUOTA_EXCEEDED");
+    }
+    
+    if (error.message?.includes("API key") || error.message?.includes("UNAUTHENTICATED") || error.message?.includes("PERMISSION_DENIED")) {
+      throw new Error("AI_CONFIG_ERROR");
+    }
+    
+    if (error.message?.includes("timeout") || error.message?.includes("DEADLINE_EXCEEDED")) {
+      throw new Error("AI_TIMEOUT");
+    }
+    
+    // Generic AI service error
+    throw new Error("AI_SERVICE_ERROR");
   }
-  return response.text;
 }

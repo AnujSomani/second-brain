@@ -22,9 +22,9 @@ export function SignupPage() {
 
   const mutation = useMutation({
     mutationFn: signup,
-    onSuccess: (data) => {
-      rememberPendingEmail(data.email);
-      navigate(`/verify-email?email=${encodeURIComponent(data.email)}`);
+    onSuccess: () => {
+      rememberPendingEmail(email.trim());
+      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
     },
   });
 

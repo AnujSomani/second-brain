@@ -42,8 +42,35 @@ chatRouter.post("/api/v1/chat", middleware, chatLimiter, async (req: Request, re
         type: c.type,
       }));
     return res.status(200).json({ answer, sources });
-  } catch (e) {
+  } catch (e: any) {
     console.error("Chat error:", e);
+    
+    // Handle specific AI errors
+    if (e.message === "AI_QUOTA_EXCEEDED") {
+      return res.status(503).json({ 
+        message: "AI service quota exceeded. Please try again later or contact support." 
+      });
+    }
+    
+    if (e.message === "AI_CONFIG_ERROR") {
+      return res.status(503).json({ 
+        message: "AI service configuration error. Please contact support." 
+      });
+    }
+    
+    if (e.message === "AI_TIMEOUT") {
+      return res.status(504).json({ 
+        message: "AI service is taking too long to respond. Please try again." 
+      });
+    }
+    
+    if (e.message === "AI_SERVICE_ERROR") {
+      return res.status(503).json({ 
+        message: "AI service temporarily unavailable. Please try again in a few moments." 
+      });
+    }
+    
+    // Generic error fallback
     return res.status(500).json({ message: "Internal server error" });
   }
 });

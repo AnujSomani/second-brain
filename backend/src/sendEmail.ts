@@ -2,12 +2,12 @@ import { Resend } from "resend";
 import { config } from "./config.js";
 export async function sendOtpEmail(email: string, otp: string) {
   if (!config.resendApiKey) {
-    throw new Error("RESEND_API_KEY is required in production mode");
+    throw new Error("Email service is not configured. Please set RESEND_API_KEY environment variable.");
   }
   const resend = new Resend(config.resendApiKey);
   const greeting = `Hello,`;
   await resend.emails.send({
-    from: "SecondBrain <noreply@yourdomain.com>",
+    from: "SecondBrain <anujsomani05@gmail.com>",
     to: email,
     subject: "Your verification code",
     text: `${greeting}\n\nYour verification code is: ${otp}\n\nThis code expires in 10 minutes.\n\nIf you did not request this, ignore this email.`,

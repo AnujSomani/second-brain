@@ -16,7 +16,7 @@ oauthRouter.get("/api/v1/auth/google", (req: Request, res: Response) => {
   res.cookie("oauth_state", state, {
     httpOnly: true,
     secure: process.env["NODE_ENV"] === "production",
-    sameSite: "lax",
+    sameSite: "strict",
     maxAge: 5 * 60 * 1000,
   });
   const authUrl = client.generateAuthUrl({
@@ -72,7 +72,7 @@ oauthRouter.get("/api/v1/auth/google/callback", async (req: Request, res: Respon
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env["NODE_ENV"] === "production",
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.redirect(`${config.frontendUrl}/brain`);

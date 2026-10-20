@@ -9,7 +9,7 @@ export const config = {
   databaseUrl: getEnv("DATABASE_URL"),
   jwtSecret: getEnv("USER_JWT_SECRET"),
   port: process.env["PORT"] ?? "3000",
-  resendApiKey: getEnv("RESEND_API_KEY"),
+  resendApiKey: process.env["RESEND_API_KEY"] ?? null,
   frontendUrl: process.env["FRONTEND_URL"] ?? null,
   geminiApiKey: getEnv("GEMINI_API_KEY"),
   googleClientId: getEnv("OAUTH_CLIENT_ID"),

@@ -40,5 +40,5 @@ export function clearUserSession() {
 }
 
 export function startGoogleAuth() {
-  window.location.assign("/api/v1/auth/google");
+  window.location.assign(`${import.meta.env.VITE_API_URL ?? ""}/api/v1/auth/google`);
 }
