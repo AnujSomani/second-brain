@@ -21,12 +21,18 @@ export function SignupPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const mutation = useMutation({
-    mutationFn: signup,
-    onSuccess: () => {
-      rememberPendingEmail(email.trim());
-      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
-    },
-  });
+  mutationFn: signup,
+
+  onSuccess: (_response, variables) => {
+    const registeredEmail = variables.email.trim();
+
+    rememberPendingEmail(registeredEmail);
+
+    navigate(
+      `/verify-email?email=${encodeURIComponent(registeredEmail)}`
+    );
+  },
+});
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();

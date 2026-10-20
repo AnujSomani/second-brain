@@ -14,7 +14,20 @@ import { ui } from "../lib/ui";
 export function VerifyEmailPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [email, setEmail] = useState(searchParams.get("email") ?? readPendingEmail());
+  const [email, setEmail] = useState(() => {
+  const emailFromUrl = searchParams.get("email");
+  const pendingEmail = readPendingEmail();
+
+  if (emailFromUrl && isValidEmail(emailFromUrl)) {
+    return emailFromUrl.trim();
+  }
+
+  if (pendingEmail && isValidEmail(pendingEmail)) {
+    return pendingEmail.trim();
+  }
+
+  return "";
+});
   const [otp, setOtp] = useState("");
   const [emailError, setEmailError] = useState("");
   const [otpError, setOtpError] = useState("");
