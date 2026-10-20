@@ -75,7 +75,7 @@ oauthRouter.get("/api/v1/auth/google/callback", async (req: Request, res: Respon
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.redirect(config.frontendUrl ?? "/");
+    return res.redirect(`${config.frontendUrl}/brain`);
   } catch (e) {
     console.error("Google OAuth error:", e);
     return res.status(500).json({ message: "OAuth sign-in failed" });
